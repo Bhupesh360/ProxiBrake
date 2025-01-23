@@ -1,0 +1,83 @@
+// Motor A (Motor 1)
+int motor1Pin1 = 27; // IN1
+int motor1Pin2 = 26; // IN2
+int enable1Pin = 14; // ENA
+
+// Motor B (Motor 2)
+int motor2Pin1 = 25; // IN3
+int motor2Pin2 = 33; // IN4
+int enable2Pin = 32; // ENB
+
+// Ultrasonic sensor pins
+int trigPin = 12;
+int echoPin = 13;
+
+long duration;
+int distance;
+
+void setup() {
+  // Motor A pins setup
+  pinMode(motor1Pin1, OUTPUT);
+  pinMode(motor1Pin2, OUTPUT);
+  pinMode(enable1Pin, OUTPUT);
+
+  // Motor B pins setup
+  pinMode(motor2Pin1, OUTPUT);
+  pinMode(motor2Pin2, OUTPUT);
+  pinMode(enable2Pin, OUTPUT);
+
+  // Ultrasonic sensor pins setup
+  pinMode(trigPin, OUTPUT);
+  pinMode(echoPin, INPUT);
+
+  // Enable motors by setting ENA and ENB to HIGH
+  digitalWrite(enable1Pin, HIGH);  
+  digitalWrite(enable2Pin, HIGH);
+
+  Serial.begin(115200);
+}
+
+void loop() {
+  // Measure distance from the ultrasonic sensor
+  digitalWrite(trigPin, LOW);
+  delayMicroseconds(2);
+  digitalWrite(trigPin, HIGH);
+  delayMicroseconds(10);
+  digitalWrite(trigPin, LOW);
+
+  duration = pulseIn(echoPin, HIGH);
+  distance = duration * 0.034 / 2; // Calculate distance in cm
+  
+  // Print the distance in serial monitor
+  Serial.println(distance);
+
+  if (distance <= 5) {
+    // Stop motors if object is within 5 cm
+    stopMotors();
+  } else {
+    // Otherwise, move motors in reverse
+    moveMotorsReverse();
+  }
+
+  delay(100); // Delay for stability
+}
+
+void moveMotorsReverse() {
+  // Move Motor A in reverse
+  digitalWrite(motor1Pin1, LOW);
+  digitalWrite(motor1Pin2, HIGH);
+
+  // Move Motor B in reverse
+  digitalWrite(motor2Pin1, LOW);
+  digitalWrite(motor2Pin2, HIGH);
+}
+
+void stopMotors() {
+  // Stop Motor A
+  digitalWrite(motor1Pin1, LOW);
+  digitalWrite(motor1Pin2, LOW);
+
+  // Stop Motor B
+  digitalWrite(motor2Pin1, LOW);
+  digitalWrite(motor2Pin2, LOW);
+}
