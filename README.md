@@ -1,4 +1,4 @@
-### *Reverse ProxiBrake with Ultrasonic Sensor and Motor Control*
+### Reverse ProxiBrake with Ultrasonic Sensor and Motor Control
 
 This project involves building a reverse proximity brake system using an *ESP32* microcontroller, *ultrasonic sensor* (HC-SR04), *motor driver*, and various other components. The system detects objects behind a vehicle while reversing and triggers automatic braking to prevent accidents.
 
